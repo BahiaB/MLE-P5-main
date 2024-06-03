@@ -17,7 +17,7 @@ COPY . .
 RUN python dowload_nltk.py
 # Exposer le port que l'application va utiliser
 EXPOSE 80
-EXPOSE 8501
+#EXPOSE 8501
 # Démarrer l'application FastAPI en utilisant uvicorn
-#CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 80 & streamlit run streamlit.py --server.port 8501 --server.address 0.0.0.0"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
+#CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 80 & streamlit run streamlit.py --server.port 8501 --server.address 0.0.0.0"]
