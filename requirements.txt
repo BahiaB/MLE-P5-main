@@ -219,3 +219,6 @@ websockets==11.0.3
     # via gradio-client
 zipp==3.18.1
     # via importlib-resources
+nltk
+bs4
+streamlit
