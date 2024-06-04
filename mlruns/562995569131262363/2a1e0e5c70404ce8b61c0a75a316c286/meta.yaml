@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/2a1e0e5c70404ce8b61c0a75a316c286/artifacts
+end_time: 1717519742576
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 2a1e0e5c70404ce8b61c0a75a316c286
+run_name: orderly-bass-884
+run_uuid: 2a1e0e5c70404ce8b61c0a75a316c286
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717519738146
+status: 3
+tags: []
+user_id: bahia

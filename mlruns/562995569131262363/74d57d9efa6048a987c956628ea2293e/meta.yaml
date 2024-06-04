@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/74d57d9efa6048a987c956628ea2293e/artifacts
+end_time: 1717521402617
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 74d57d9efa6048a987c956628ea2293e
+run_name: abundant-yak-451
+run_uuid: 74d57d9efa6048a987c956628ea2293e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717521398691
+status: 3
+tags: []
+user_id: bahia

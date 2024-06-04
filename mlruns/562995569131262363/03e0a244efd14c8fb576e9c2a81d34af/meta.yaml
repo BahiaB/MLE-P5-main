@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/03e0a244efd14c8fb576e9c2a81d34af/artifacts
+end_time: 1717520765588
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 03e0a244efd14c8fb576e9c2a81d34af
+run_name: mysterious-skink-111
+run_uuid: 03e0a244efd14c8fb576e9c2a81d34af
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717520713351
+status: 3
+tags: []
+user_id: bahia

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/08953104955a4414ab21c190ecf0e3b3/artifacts
+end_time: 1717521212584
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 08953104955a4414ab21c190ecf0e3b3
+run_name: nimble-snipe-779
+run_uuid: 08953104955a4414ab21c190ecf0e3b3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717521010296
+status: 3
+tags: []
+user_id: bahia

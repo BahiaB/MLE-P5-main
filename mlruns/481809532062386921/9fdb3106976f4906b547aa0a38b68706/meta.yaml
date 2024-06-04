@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/aqlice/Desktop/machine-learning/P5/mlruns/481809532062386921/9fdb3106976f4906b547aa0a38b68706/artifacts
+end_time: 1717511854851
+entry_point_name: ''
+experiment_id: '481809532062386921'
+lifecycle_stage: active
+run_id: 9fdb3106976f4906b547aa0a38b68706
+run_name: classy-fly-407
+run_uuid: 9fdb3106976f4906b547aa0a38b68706
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717511531700
+status: 3
+tags: []
+user_id: bahia

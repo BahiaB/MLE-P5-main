@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/d69c2687912447d4af1c825cab242910/artifacts
+end_time: 1717518700342
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: d69c2687912447d4af1c825cab242910
+run_name: rebellious-tern-220
+run_uuid: d69c2687912447d4af1c825cab242910
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717518695899
+status: 3
+tags: []
+user_id: bahia

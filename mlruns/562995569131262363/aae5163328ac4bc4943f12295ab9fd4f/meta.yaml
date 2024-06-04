@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/aae5163328ac4bc4943f12295ab9fd4f/artifacts
+end_time: 1717520330892
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: aae5163328ac4bc4943f12295ab9fd4f
+run_name: unleashed-wolf-494
+run_uuid: aae5163328ac4bc4943f12295ab9fd4f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717520325825
+status: 3
+tags: []
+user_id: bahia

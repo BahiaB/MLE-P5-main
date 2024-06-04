@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/b3ac0253ca0645948d7ac667e29ddbd0/artifacts
+end_time: 1717521694083
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: b3ac0253ca0645948d7ac667e29ddbd0
+run_name: melodic-lamb-173
+run_uuid: b3ac0253ca0645948d7ac667e29ddbd0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717521689220
+status: 3
+tags: []
+user_id: bahia

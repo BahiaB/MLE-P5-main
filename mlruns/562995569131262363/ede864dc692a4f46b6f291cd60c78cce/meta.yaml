@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/ede864dc692a4f46b6f291cd60c78cce/artifacts
+end_time: 1717520794152
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: ede864dc692a4f46b6f291cd60c78cce
+run_name: rogue-elk-78
+run_uuid: ede864dc692a4f46b6f291cd60c78cce
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717520765607
+status: 3
+tags: []
+user_id: bahia

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/281180dcc7b94c068fa27dd37878b6e8/artifacts
+end_time: 1717519738144
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 281180dcc7b94c068fa27dd37878b6e8
+run_name: sedate-stoat-730
+run_uuid: 281180dcc7b94c068fa27dd37878b6e8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717519715612
+status: 3
+tags: []
+user_id: bahia

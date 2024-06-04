@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/7ba9b5b5cb9442fea1f63889830a35b8/artifacts
+end_time: 1717521262899
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 7ba9b5b5cb9442fea1f63889830a35b8
+run_name: youthful-fowl-230
+run_uuid: 7ba9b5b5cb9442fea1f63889830a35b8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717521259089
+status: 3
+tags: []
+user_id: bahia

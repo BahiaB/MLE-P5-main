@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/4a23ea6b5d6d4acd8a1652e24f05f594/artifacts
+end_time: 1717520711627
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 4a23ea6b5d6d4acd8a1652e24f05f594
+run_name: brawny-carp-711
+run_uuid: 4a23ea6b5d6d4acd8a1652e24f05f594
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717520706946
+status: 3
+tags: []
+user_id: bahia

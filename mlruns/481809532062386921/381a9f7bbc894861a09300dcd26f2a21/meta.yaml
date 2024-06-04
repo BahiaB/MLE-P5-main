@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/aqlice/Desktop/machine-learning/P5/mlruns/481809532062386921/381a9f7bbc894861a09300dcd26f2a21/artifacts
+end_time: 1717512385166
+entry_point_name: ''
+experiment_id: '481809532062386921'
+lifecycle_stage: active
+run_id: 381a9f7bbc894861a09300dcd26f2a21
+run_name: magnificent-hog-482
+run_uuid: 381a9f7bbc894861a09300dcd26f2a21
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717511854863
+status: 3
+tags: []
+user_id: bahia

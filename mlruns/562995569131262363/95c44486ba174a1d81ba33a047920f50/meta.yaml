@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/95c44486ba174a1d81ba33a047920f50/artifacts
+end_time: 1717521696040
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 95c44486ba174a1d81ba33a047920f50
+run_name: indecisive-gnu-942
+run_uuid: 95c44486ba174a1d81ba33a047920f50
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717521695838
+status: 3
+tags: []
+user_id: bahia

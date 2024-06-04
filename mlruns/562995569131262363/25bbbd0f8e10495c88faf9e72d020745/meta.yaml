@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bahia/Desktop/MLE-P5-main/mlruns/562995569131262363/25bbbd0f8e10495c88faf9e72d020745/artifacts
+end_time: 1717520325790
+entry_point_name: ''
+experiment_id: '562995569131262363'
+lifecycle_stage: active
+run_id: 25bbbd0f8e10495c88faf9e72d020745
+run_name: sneaky-goose-956
+run_uuid: 25bbbd0f8e10495c88faf9e72d020745
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717520321528
+status: 3
+tags: []
+user_id: bahia
