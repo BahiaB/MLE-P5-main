@@ -47,8 +47,3 @@ def test_select_top_n_tags():
                                [1, 1, 1, 1, 0]])
     assert select_top_n_tags(probabilities, threshold, top_n) == expected_output
 
-'''def test_vectorize_data(data):
-    # create and instanciate Vectorisation
-    data = ['This is a test']
-    vectorized_data = pipeline_tfidf.transform(data)
-    return vectorized_data'''
