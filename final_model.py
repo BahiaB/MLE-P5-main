@@ -1,4 +1,5 @@
 import re
+from sentence_transformers import SentenceTransformer
 from sklearn.base import BaseEstimator, TransformerMixin # type: ignore
 from sklearn.pipeline import Pipeline   # type: ignore
 from bs4 import BeautifulSoup
@@ -15,9 +16,12 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.metrics import precision_score, recall_score, f1_score,  jaccard_score
 import numpy as np
 from joblib import dump, load
+from sentence_transformers import SentenceTransformer
 
 
 # Creation du pipeline de preproessing
+
+
 class TagsCleaner(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         return self
@@ -29,9 +33,6 @@ class TagsCleaner(BaseEstimator, TransformerMixin):
         tags_to_transform = BeautifulSoup(text, "html.parser")
         return [tag.name for tag in tags_to_transform.find_all()]
     
-    '''
-    def transform(self, X, y=None):
-        return [BeautifulSoup(text, "html.parser").get_text() for text in X]'''
     
 class HtmlCleaner(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
@@ -48,9 +49,6 @@ class HtmlCleaner(BaseEstimator, TransformerMixin):
         return clean_text
     
     
-    '''def transform(self, X, y=None):
-        return [BeautifulSoup(text, "html.parser").get_text() for text in X]'''
-
 
 class TextTokenizer(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
@@ -138,13 +136,23 @@ class CustomTfidfVectorizer(BaseEstimator, TransformerMixin):
     def transform(self, X, y=None):
         return self.vectorizer.transform(X)
     
-def create_tfidf_pipeline():
-    pipeline_tfidf = Pipeline([
+class SentenceTransformerVectorizer(BaseEstimator, TransformerMixin):
+    def __init__(self, model_name='all-MiniLM-L6-v2'):
+        self.model = SentenceTransformer(model_name)
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return self.model.encode(X)
+    
+
+def create_use_pipeline():
+    pipeline_use = Pipeline([
+        ("use_vec",SentenceTransformerVectorizer()),
         
-        ("tfidf", TfidfVectorizer(min_df=0.007, max_df=0.9, ngram_range=(1, 1), stop_words='english')),
-       # ("clf", OneVsRestClassifier(LogisticRegression())),
     ])
-    return pipeline_tfidf
+    return pipeline_use
 
 def create_clf_pipeline():
     pipeline_clf = Pipeline([
@@ -183,7 +191,7 @@ def preprocess_data(data):
 def vectorize_data(data):
     # create and instanciate Vectorisation
     data = [' '.join(text) for text in data]
-    vectorized_data = pipeline_tfidf.transform(data)
+    vectorized_data = pipeline_use.transform(data)
     return vectorized_data
 
 def final_model(data):
@@ -211,7 +219,7 @@ df['Title'] = df['Title'].fillna('')
 # Combinaison des colonnes avec une gestion propre
 df['Comb'] = df.apply(lambda row: str(row['Body']) + " " + str(row['Title']), axis=1)
 comb= []
-comb = df.iloc[:].Comb[:3500]
+comb = df['Comb'][:7000]
 preprocessed_comb = pipeline.fit_transform(comb)
 print('preprocessed_comb \n',preprocessed_comb[:1], '\n')
 
@@ -229,7 +237,8 @@ print('processed_new_data',processed_new_data)
 # preprocessing des tags
 df['Tags'] = df.apply(lambda row: str(row['Tags']), axis =1)
 tags = []
-tags = df.iloc[:].Tags[:3500]
+#tags = df.iloc[:].Tags
+tags = df['Tags'][:7000]
 print('tags =',tags)
 preprocessed_tags = pipeline_tags.fit_transform(tags)
 print("preprossed tags",preprocessed_tags[:10])
@@ -266,9 +275,9 @@ X_train, X_test, y_train, y_test = train_test_split(X,y,
 )
 #print('X_train',X_train[:10], y_train[:10])
 print('X_train shape',X_train.shape,'X_train shape',X_test.shape)
-X_train_sample = X_train.sample(2500, random_state=42)
+X_train_sample = X_train.sample(5000, random_state=42)
 y_train_sample = y_train.loc[X_train_sample.index]
-X_test_sample = X_test.sample(50, random_state=42)
+X_test_sample = X_test.sample(1000, random_state=42)
 y_test_sample = y_test.loc[X_test_sample.index]
 
 print('X_train shape',X_train_sample.shape,'X_train shape',X_test_sample.shape)
@@ -280,27 +289,29 @@ y_train_sample_trans = mlb.fit_transform(y_train_sample)
 y_test_sample_trans = mlb.transform(y_test_sample) 
 print('y_train_sample shape',y_train_sample_trans.shape)
 
-pipeline_tfidf = create_tfidf_pipeline()
-
+pipeline_use = create_use_pipeline()
+print("pipepline created")
 # Convertir les listes en chaînes de caractères
 X_train_sample_str = [' '.join(text) for text in X_train_sample]
 X_test_sample_str = [' '.join(text) for text in X_test_sample]
 
-## transformation X en matrice tfidf
-X_train_sample_trans = pipeline_tfidf.fit_transform(X_train_sample_str)
-X_test_sample_trans = pipeline_tfidf.transform(X_test_sample_str)
+## transformation X en matrice
+X_train_sample_trans = pipeline_use.fit_transform(X_train_sample_str)
+X_test_sample_trans = pipeline_use.transform(X_test_sample_str)
+(print("vectorisation transformed"))
 print('X_train_sample_trans',X_train_sample_trans)
 pipeline_clf = create_clf_pipeline()
-
+print("fit debut")
 pipeline_clf.fit(X_train_sample_trans, y_train_sample_trans)
-
+print("fit terminer")
 
 predictions = pipeline_clf.predict_proba(X_test_sample_trans)
+print("predict ok")
 print("shape de prediction",predictions.shape)
 print("shape de prediction",X_test_sample_trans.shape)
 
 probabilities = predictions
-binary_predictions = select_top_n_tags(probabilities, 0.15, top_n=7)
+binary_predictions = select_top_n_tags(probabilities, 0.2, top_n=7)
 
 print("Precision:", precision_score(y_test_sample_trans, binary_predictions, average='samples'))
 print("Recall:", recall_score(y_test_sample_trans, binary_predictions, average='samples'))
