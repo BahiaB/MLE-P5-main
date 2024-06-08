@@ -222,3 +222,5 @@ zipp==3.18.1
 nltk
 bs4
 streamlit
+pytest
+sentence_transformers
