@@ -17,7 +17,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score,  jaccard_sc
 import numpy as np
 from joblib import dump, load
 from sentence_transformers import SentenceTransformer
-
+from collections import defaultdict
 
 # Creation du pipeline de preproessing
 
@@ -113,28 +113,10 @@ pipeline = Pipeline([
     ('lemmatizer',TextLemmatizer()),
 ])
 
-# Pipeline de nettoyage our les tags
+# Pipeline de nettoyage pour les tags
 pipeline_tags = Pipeline([('tags_cleaner', TagsCleaner())])
 
-#Pipeline de vectorisation avec tfidf 
-class CustomTfidfVectorizer(BaseEstimator, TransformerMixin):
-    def __init__(self, min_df=0.03, max_df=0.007, ngram_range=(1, 1), norm='l2', use_idf=True, stop_words='english'):
-        self.min_df = min_df
-        self.max_df = max_df
-        self.ngram_range = ngram_range
-        self.norm = norm
-        self.use_idf = use_idf
-        self.stop_words = stop_words
-        self.vectorizer = TfidfVectorizer(min_df=self.min_df, max_df=self.max_df,
-                                          ngram_range=self.ngram_range, norm=self.norm,
-                                          use_idf=self.use_idf, stop_words=self.stop_words)
 
-    def fit(self, X, y=None):
-        self.vectorizer.fit(X)
-        return self
-
-    def transform(self, X, y=None):
-        return self.vectorizer.transform(X)
     
 class SentenceTransformerVectorizer(BaseEstimator, TransformerMixin):
     def __init__(self, model_name='all-MiniLM-L6-v2'):
@@ -177,7 +159,6 @@ def select_top_n_tags(probabilities, threshold, top_n=5):
         
         # Mettre à 1 les positions correspondant aux tags sélectionnés
         final_tags[i, top_n_indices] = 1
-    print("final tags debug:",final_tags)
     return final_tags
 
    
@@ -206,6 +187,13 @@ def final_model(data):
     return predictions_labels
 
 
+def calculate_token_frequency(body):
+    token_frequency = defaultdict(int)
+    for text in body:
+        for token in text:
+            token_frequency[token] += 1
+    sorted_token_frequency = dict(sorted(token_frequency.items(), key=lambda x: x[1], reverse=True))
+    return sorted_token_frequency
 ##### Preprocessing #####
 
 # Load data
@@ -219,49 +207,37 @@ df['Title'] = df['Title'].fillna('')
 # Combinaison des colonnes avec une gestion propre
 df['Comb'] = df.apply(lambda row: str(row['Body']) + " " + str(row['Title']), axis=1)
 comb= []
-comb = df['Comb'][:7000]
+comb = df['Comb'][:5000]
 preprocessed_comb = pipeline.fit_transform(comb)
 print('preprocessed_comb \n',preprocessed_comb[:1], '\n')
 
 
 # Enregistrer la fonction
-dump(preprocess_data, 'preprocess_function.joblib')
 # Charger la fonction
+dump(preprocess_data, 'preprocess_function.joblib')
 loaded_preprocess_function = load('preprocess_function.joblib')
 
 # Utiliser la fonction chargée pour traiter de nouvelles données
-new_data = ["android jetpack navigation bottomnavigationview youtube instagram proper back navigation fragment back "]
+new_data = ["'ve been working on the Android SDK platform, and it is a little unclear how to save an application's state. So given this minor re-tooling of the 'Hello, Android' example:"]
+            
+            
 processed_new_data = loaded_preprocess_function(new_data)
 print('processed_new_data',processed_new_data)
 
 # preprocessing des tags
 df['Tags'] = df.apply(lambda row: str(row['Tags']), axis =1)
 tags = []
-#tags = df.iloc[:].Tags
-tags = df['Tags'][:7000]
-print('tags =',tags)
+tags = df['Tags'][:5000]
 preprocessed_tags = pipeline_tags.fit_transform(tags)
 print("preprossed tags",preprocessed_tags[:10])
 
-# Filtrer les tags op 20 tags
-'''from collections import defaultdict
-def calculate_token_frequency(body):
-    token_frequency = defaultdict(int)
-    for text in body:
-        for token in text:
-            token_frequency[token] += 1
-    sorted_token_frequency = dict(sorted(token_frequency.items(), key=lambda x: x[1], reverse=True))
-    return sorted_token_frequency
-tags_frequency = calculate_token_frequency(preprocessed_tags)
 
-tags_to_keep = list(pd.Series(tags_frequency).sort_values(ascending=False).iloc[:15].index)
-print('tags to keep',tags_to_keep)
-#preprocessed_tags = df[df['Tags'].apply(lambda x: any(tag in tags_to_keep for tag in x.split()))]
-
-# Filtrez les tags
-preprocessed_tags = df[df['Tags'].apply(lambda tags: any(tag in tags_to_keep for tag in tags))]
-print('preprocessed_tags',preprocessed_tags.head())'''
 final_df = pd.DataFrame({'Comb':preprocessed_comb, 'Tags':preprocessed_tags})
+# Filtrez les tags
+tags_frequency = calculate_token_frequency(preprocessed_tags)
+tags_to_keep = list(pd.Series(tags_frequency).sort_values(ascending=False).iloc[:20].index)
+final_df = final_df[final_df['Tags'].apply(lambda tags: any(tag in tags_to_keep for tag in tags))]
+
 print('final_df',final_df.head())
 
 ##### Transforamtion #####
@@ -275,9 +251,9 @@ X_train, X_test, y_train, y_test = train_test_split(X,y,
 )
 #print('X_train',X_train[:10], y_train[:10])
 print('X_train shape',X_train.shape,'X_train shape',X_test.shape)
-X_train_sample = X_train.sample(5000, random_state=42)
+X_train_sample = X_train.sample(2000, random_state=42)
 y_train_sample = y_train.loc[X_train_sample.index]
-X_test_sample = X_test.sample(1000, random_state=42)
+X_test_sample = X_test.sample(440, random_state=42)
 y_test_sample = y_test.loc[X_test_sample.index]
 
 print('X_train shape',X_train_sample.shape,'X_train shape',X_test_sample.shape)
@@ -326,5 +302,4 @@ new_data_vectorized = loaded_vectorize_function(processed_new_data)
 dump(final_model, 'final_model.joblib')
 loaded_final_model = load('final_model.joblib')
 new_data_pred = loaded_final_model(new_data_vectorized)
-#tag = mlb.inverse_transform(new_data_pred)
 print('new_data_pred',new_data_pred)    
