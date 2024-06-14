@@ -37,13 +37,3 @@ def test_text_lemmatizer():
     expected_output = ['run', 'test']  # assuming the lemmatizer converts 'running' to 'run' and 'tests' to 'test'
     assert lemmatizer.transform([text]) == [expected_output]
 
-'''def test_select_top_n_tags():
-    import numpy as np
-    probabilities = np.array([[0.1, 0.3, 0.5, 0.2, 0.4],
-                             [0.6, 0.8, 0.7, 0.9, 0.5]])
-    threshold = 0.4
-    top_n = 3
-    expected_output = np.array([[0, 0, 1, 0, 1],
-                               [1, 1, 1, 1, 0]])
-    assert select_top_n_tags(probabilities, threshold, top_n) == expected_output'''
-
