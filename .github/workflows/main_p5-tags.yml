@@ -29,7 +29,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: download nltk
-        run: python -m dowload_nltk.py
+        run: python -m dowload_nltk
 
       - name: pytest
         run: pytest test_final_model.py
