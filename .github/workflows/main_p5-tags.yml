@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: download nltk
+        run: python -m dowload_nltk.py
+
       - name: pytest
         run: pytest test_final_model.py
 
