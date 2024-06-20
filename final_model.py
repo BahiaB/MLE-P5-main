@@ -7,7 +7,6 @@ from nltk.stem import WordNetLemmatizer  # type: ignore
 from nltk.corpus import wordnet  # type: ignore
 import nltk  # type: ignore
 import sys
-from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
 from sklearn.multiclass import OneVsRestClassifier  # type: ignore
 from sklearn.linear_model import LogisticRegression  # type: ignore
 import pandas as pd
@@ -16,12 +15,12 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.metrics import precision_score, recall_score, f1_score,  jaccard_score
 import numpy as np
 from joblib import dump, load
-from sentence_transformers import SentenceTransformer
 from collections import defaultdict
+
 
 # Creation du pipeline de preproessing
 
-
+print("final model biggining")
 class TagsCleaner(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         return self
@@ -207,10 +206,8 @@ df['Title'] = df['Title'].fillna('')
 # Combinaison des colonnes avec une gestion propre
 df['Comb'] = df.apply(lambda row: str(row['Body']) + " " + str(row['Title']), axis=1)
 comb= []
-comb = df['Comb'][:5000]
+comb = df['Comb'][:10000]
 preprocessed_comb = pipeline.fit_transform(comb)
-print('preprocessed_comb \n',preprocessed_comb[:1], '\n')
-
 
 # Enregistrer la fonction
 # Charger la fonction
@@ -219,15 +216,13 @@ loaded_preprocess_function = load('preprocess_function.joblib')
 
 # Utiliser la fonction chargée pour traiter de nouvelles données
 new_data = ["'ve been working on the Android SDK platform, and it is a little unclear how to save an application's state. So given this minor re-tooling of the 'Hello, Android' example:"]
-            
-            
 processed_new_data = loaded_preprocess_function(new_data)
-print('processed_new_data',processed_new_data)
+
 
 # preprocessing des tags
 df['Tags'] = df.apply(lambda row: str(row['Tags']), axis =1)
 tags = []
-tags = df['Tags'][:5000]
+tags = df['Tags'][:10000]
 preprocessed_tags = pipeline_tags.fit_transform(tags)
 print("preprossed tags",preprocessed_tags[:10])
 
@@ -244,23 +239,21 @@ print('final_df',final_df.head())
 
 X = final_df['Comb']
 y = final_df['Tags']
-
+print("X shape",X.shape,"y shape",y.shape)
 X_train, X_test, y_train, y_test = train_test_split(X,y,
     test_size=0.2,
     random_state=42
 )
-#print('X_train',X_train[:10], y_train[:10])
+
 print('X_train shape',X_train.shape,'X_train shape',X_test.shape)
-X_train_sample = X_train.sample(2000, random_state=42)
+X_train_sample = X_train.sample(5520, random_state=42)
 y_train_sample = y_train.loc[X_train_sample.index]
-X_test_sample = X_test.sample(440, random_state=42)
+X_test_sample = X_test.sample(1100, random_state=42)
 y_test_sample = y_test.loc[X_test_sample.index]
 
 print('X_train shape',X_train_sample.shape,'X_train shape',X_test_sample.shape)
 ## Convertir y_train et y_test en matrice binaire
 mlb = MultiLabelBinarizer()
-
-# Adapter MultiLabelBinarizer et transformer les étiquettes
 y_train_sample_trans = mlb.fit_transform(y_train_sample)
 y_test_sample_trans = mlb.transform(y_test_sample) 
 print('y_train_sample shape',y_train_sample_trans.shape)
@@ -275,7 +268,7 @@ X_test_sample_str = [' '.join(text) for text in X_test_sample]
 X_train_sample_trans = pipeline_use.fit_transform(X_train_sample_str)
 X_test_sample_trans = pipeline_use.transform(X_test_sample_str)
 (print("vectorisation transformed"))
-print('X_train_sample_trans',X_train_sample_trans)
+
 pipeline_clf = create_clf_pipeline()
 print("fit debut")
 pipeline_clf.fit(X_train_sample_trans, y_train_sample_trans)
@@ -283,11 +276,10 @@ print("fit terminer")
 
 predictions = pipeline_clf.predict_proba(X_test_sample_trans)
 print("predict ok")
-print("shape de prediction",predictions.shape)
-print("shape de prediction",X_test_sample_trans.shape)
+
 
 probabilities = predictions
-binary_predictions = select_top_n_tags(probabilities, 0.2, top_n=7)
+binary_predictions = select_top_n_tags(probabilities, 0.25, top_n=7)
 
 print("Precision:", precision_score(y_test_sample_trans, binary_predictions, average='samples'))
 print("Recall:", recall_score(y_test_sample_trans, binary_predictions, average='samples'))
@@ -303,3 +295,8 @@ dump(final_model, 'final_model.joblib')
 loaded_final_model = load('final_model.joblib')
 new_data_pred = loaded_final_model(new_data_vectorized)
 print('new_data_pred',new_data_pred)    
+
+
+
+
+
