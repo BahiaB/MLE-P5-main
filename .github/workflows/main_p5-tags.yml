@@ -36,7 +36,9 @@ jobs:
           python -m nltk.downloader wordnet
 
       - name: pytest
-        run: pytest test_final_model.py
+        run: |
+              cd Final_model
+              pytest
 
     
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
